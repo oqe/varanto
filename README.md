@@ -10,33 +10,33 @@ Varanto is developed using R and Shiny web framework.
 
 # Table of Contents
 
-Varanto
-Usage
+Varanto  
+Usage  
 
-Deploying Varanto locally - instructions
-1. Requirements
-    1.1 Install required software - Option A: natively
-    1.2 Install required software - Option B: with conda package manager
-    1.3 Setup your PostgreSQL database
-2. Downloading and preparing data sources (MSigDB, background sets) and Varanto git repository
-    2.1 Varanto git repository
-    2.2 Preparing additional data sources manually
-        2.2.1 Download MSigDB_Collection
-        2.2.2 Prepare MSigDB_Collection
-        2.2.3 Download background sets
-        2.2.4 Prepare background sets
-    2.2 Main data source version check
-3. Download and prepare main data sources and import to database
-    3.1 Edit and apply changes to configuration file (varanto_import.conf)
-    3.2 Setting up passwordless database import (optional, but recommended)
-    3.3 Import script - Download main data sources
-    3.4 Import script - Prepare and import data resources to database
-4. Shiny
-    4.1 Input your database information for R Shiny
-    4.2 Startup Shiny
+Deploying Varanto locally - instructions  
+1. Requirements  
+    1.1. Install required software - Option A: natively  
+    1.2. Install required software - Option B: with conda package manager  
+    1.3. Setup your PostgreSQL database  
+2. Downloading and preparing data sources (MSigDB, background sets) and Varanto git repository  
+    2.1. Varanto git repository  
+    2.2. Preparing additional data sources manually  
+        2.2.1. Download MSigDB_Collection  
+        2.2.2. Prepare MSigDB_Collection  
+        2.2.3. Download background sets  
+        2.2.4. Prepare background sets  
+    2.2. Main data source version check  
+3. Download and prepare main data sources and import to database  
+    3.1. Edit and apply changes to configuration file (varanto_import.conf)  
+    3.2. Setting up passwordless database import (optional, but recommended)  
+    3.3. Import script - Download main data sources  
+    3.4. Import script - Prepare and import data resources to database  
+4. Shiny  
+    4.1. Input your database information for R Shiny  
+    4.2. Startup Shiny  
 
-Credits and citing instructions
-Sources
+Credits and citing instructions  
+Sources  
 
 ## Usage
 
@@ -212,7 +212,7 @@ In this section we will download the main data sources with help of the import_s
 
 Edit /varanto/conf/varanto_import.conf
 
-Input your host address, database- and usernames.
+Input your PostgreSQL database host address, database- and usernames.
     
     DB_HOST=<your host address>
     DB_NAME=<your database name>
@@ -313,10 +313,6 @@ And write to file...
 
 	hostname:port:database:username:password
 
-So in reality...:
-
-	biodb.uef.fi:5432:varanto:varanto:<password>
-
 So <password> is your actual password. After that you need to save changes you made to the file and set permissions.
 
 	chmod 600 .pgpass
@@ -332,11 +328,11 @@ See the following:
 
 **!Important!** limit the used threads to 1-2.  
 The querying has been parallized, but this basicly DDoS the bioMart service (R's bioMart getBM...) and therefore for most threads fails.  
-Main download may take several days! 4 days and 9 hours.
+Main download may take several days! For example one attempt took 4 days and 9 hours.
 
-Run **varanto_import.script sh** from the following git folder of your varanto project: /home/users/username/Documents/varanto/importer_src
+Script is run **varanto_import.script sh** from the following git folder of your varanto project: /varanto/importer_src
 
-Remember that you can perform wanted steps by defining what steps to execute.
+You can perform wanted steps by defining what steps to execute.
     
     #STEP 1: Obtain variation ids
     #STEP 2: Obtain variation annotations
@@ -361,6 +357,8 @@ For example if we want to only do the downloading of the required files before g
 
 
 ### 4. Shiny
+
+After completing the import steps succesfully we need to 
 
 To run Varanto locally we also need to apply appropriate changes to connect to our postgresql database. After that you can launch Varanto from RStudio.
 
