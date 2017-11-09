@@ -1,0 +1,3 @@
+<h3>Enrichment</h3>
+<p>Enrichment-tab includes results from the enrichment analysis performed on your input variation set. The result table includes information about over- and under-presentation of associated annotations within your input variation set, when compared to the selected background variation set.
+</p>

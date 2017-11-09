@@ -1,0 +1,2 @@
+<h3>Karyogram</h3>
+<p>The karyogram tab allows you to visualize the genomic locations of your input variations in the context of the human genome. This enables visual inspection of the genomic loci, including detection of clustering of variations in certain parts of the genome.</p>

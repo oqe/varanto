@@ -1,0 +1,16 @@
+<h3>About Varanto</h3>
+<p>Varanto is an online database and tool for annotating human genetic variations using various annotation data sources. Varanto can be used to query a set of input variations, retrieve associated annotations and to visualize and analyze the results.
+</p>
+<p>
+Varanto has been developed by the <a href="http://www.uef.fi/bioinformatics/">Bioinformatics Center</a> at the University of Eastern Finland, Kuopio Finland.</p>
+<p>
+To contact UEF Bioinformatics Center, please send e-mail to: bioinformatics (at) uef.fi
+</p>
+<p>
+Varanto is developed using <a href="http://www.r-project.org/">R</a> and <a href="http://shiny.rstudio.com/">Shiny</a> web framework.
+</p>
+<p>
+<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Varanto</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://bioinformatics.uef.fi/signia" property="cc:attributionName" rel="cc:attributionURL">UEF Bioinformatics Center</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.<br/>
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+</p>
+<h3>Data sources</h3>

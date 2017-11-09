@@ -1,0 +1,20 @@
+<h3>Background Sets</h3>
+<p>Background sets include the following SNP genotyping arrays:
+<ul>
+	<li>Affymetrix Genome-Wide Human SNP Array 5.0</li>
+	<li>Affymetrix Genome-Wide Human SNP Array 6.0</li>
+	<li>Affymetrix Genome-Wide Human SNP Array 6.0 Structural Variation</li>
+	<li>Affymetrix GeneChip Human Mapping 250K Nsp</li>
+	<li>Affymetrix GeneChip Human Mapping 250K Sty</li>
+	<li>Illumina Human1M-Duo</li>
+	<li>Illumina HumanHap300</li>
+	<li>Illumina HumanHap550</li>
+	<li>Illumina HumanHap650Y</li>
+	<li>Illumina Human660W-Quad</li>
+	<li>Illumina HumanCytoSNP-12</li>
+	<li>Illumina HumanOmni1-Quad</li>
+</ul>
+<p>SNP genotyping arrays were downloaded from <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/</a> (search for snpArray<array name>). Probe identifiers were extracted for the use of Varanto.
+</p>
+<p>More information about these SNP arrays can be found here: <a href="https://cgwb.nci.nih.gov/cgi-bin/hgTrackUi?g=snpArray">https://cgwb.nci.nih.gov/cgi-bin/hgTrackUi?g=snpArray</a>.
+</p>

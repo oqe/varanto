@@ -1,0 +1,62 @@
+<h1>User Guides</h1>
+<p>Varanto tool can be used to annotate and analyze human genetic variations.
+</p>
+<h2>Input-tab</h2>
+<h3>Input variations</h3>
+<p>
+Varanto understand variation identifiers supported by the Ensembl database. The primary type for the identifiers is dbSNP reference SNP identifiers (i.e. rs-numbers). There are two ways to input the identifiers, by pasting them on the text-box (separated by whitespace) or by uploading a file with a single variation identifier on each row of the file.
+</p>
+<p>
+<strong>Hint:</strong> The “Example variations” button allows you to quickly test Varanto with a small set of example variations.
+</p>
+
+<h3>Background Set</h3>
+<p>The enrichment analysis looks for over-representation/under-representation of variation linked annotations in your input set. The annotations linked to the input set is compared to a background set, which by default consist of all the variations in the database. If your input set is derived from experiments where your technological choices limit the possible detectable variations (for example when using a SNP microarray with predetermined variations), you should select a suitable background variation set. The most common SNP microarray types are supported (information retrieved from USCS Genome Browser).
+</p>
+<p><strong>Hint:</strong> If not using an input set derived from a SNP microarray experiment, use “All variations” as background set.
+</p>
+
+<h3>Filter variations by distance</h3>
+<p>To avoid the issue where your input set contain several closely located variations (e.g. within a single gene) resulting in an over-presentation of annotations liked to this loci, you can filter the input variation set by their genomic distance. Varanto will choose a single variation within the distance limit and filter out other variations.
+</p>
+<h3>Variation annotations</h3>
+<p>Variation annotations are annotations that are linked directly to an individual variation (e.g. alleles for the variation in question, effect on transcripts, changes in disease risk). These annotations give specific information on the variations themselves.
+</p>
+<h3>Gene annotations</h3>
+<p>Gene annotations are annotations that are linked to a gene, and through the gene, to all variations within that gene. Therefore these annotation are more general, as all the variations within the gene have the same gene annotations.
+</p>
+<p><strong>Hint:</strong> Gene annotations are more general and may yield results where the variations in the input list do not really have an effect on the gene or the related phenomena. On the other hand, gene annotations are useful for hypothesis generation and overall inspection of variation sets as much more information is known about genes than variations. When using gene annotations, it is often advisable to use the “Filter variations by distance” option to filter out variations within the same gene.
+</p>
+<h3>Submit your query</h3>
+<p>After inputting the variation set and choosing suitable options, press “Submit” to analyze your input set. 
+<p>Brief descriptive information about your input will be shown below the Submit-buton (e.g. how many variations from your input set were found from the background set, how many were left after filtering, how many unique annotations were found for these variations, and how many associations there was between the input variations and the annotations).
+</p>
+<p>Below the descriptive infomration a table with the query results will be shown- The table consist of variations in your input set, general information about the variations (allele, chromosomal location), and association of the variations to annotations as a binary table (0 means no association, 1 means an association). The data can be downloaded through the “Download data” button. The downloaded data can be further analyzed with external tools.
+</p>
+
+<h2>Enrichment Analysis-tab</h2>
+<p>Enrichment Analysis-tab includes results from the enrichment analysis performed on your input variation set. The result table includes information about over- and under-presentation of associated annotations within your input variation set, when compared to the selected background variation set. 
+</p>
+<p>
+The columns in the enrichment analysis table are: 
+<ul>
+<li><strong>Label</strong> Label of the annotation</li>
+<li><strong>Description</strong> Description of the annotation (if available)</li>
+<li><strong>Observed</strong> Observed number of annotations associated to variations in the input set</li>
+<li><strong>Expected</strong> Expected number of associated annotations, based on the background set</li>
+<li><strong>Odds ratio</strong> Odds ratio (OR) for the ratio of the observed and expecgted associations</li>
+<li><strong>Under P</strong> Statistical significance (p-value) for under representation of the association</li>
+<li><strong>Under P-FDR</strong> Under P value adjusted for multiple testing using Benjamini-Hochberg false discovery rate correction</li>
+<li><strong>Over P</strong> Statistical significance (p-value) for over-representation of the association</li>
+<li><strong>Over P-FDR Over</strong> P value adjusted for multiple testing using Benjamini-Hochberg false discovery rate correction</li>
+</ul>
+</p><p>
+<strong>Hint:</strong> The most common way to interpret the results is to focus on the Over P-FDR column, look for statistically significant over-representation (e.g. P-FDR < 0.05) to identify association terms statistically significantly over represented by the variations in your input set. 
+</p>
+<h2>Heatmap-tab</h2>
+<p>Heatmap-tab includes a visualization of the variations and their associated annotations. The variations and annotations are ordered using hierarchical clustering, enabling identification of clusters and annotations that behave similarly.
+</p>
+
+<h2>Karyogram-tab</h2>
+<p>The karyogram tab allows you to visualize the genomic locations of your input variations in the context of the human genome. This enables visual inspection of the genomic loci, including detection of clustering of variations in certain parts of the genome.</p>
+

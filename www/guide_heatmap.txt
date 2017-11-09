@@ -1,0 +1,3 @@
+<h3>Heatmap</h3>
+<p>Heatmap-tab includes a visualization of the variations and their associated annotations. The variations and annotations are ordered using hierarchical clustering, enabling identification of clusters and annotations that behave similarly.
+</p>
