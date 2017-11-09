@@ -81,6 +81,7 @@ shinyUI(
                          
                          # Annotation Data
                          ##################
+			 h3("Annotation Results"),
                          verticalLayout(
                            textOutput('message_data'),
                             inputPanel(            

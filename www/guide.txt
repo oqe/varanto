@@ -31,7 +31,9 @@ Varanto understand variation identifiers supported by the Ensembl database. The 
 <p>After inputting the variation set and choosing suitable options, press “Submit” to analyze your input set. 
 <p>Brief descriptive information about your input will be shown below the Submit-buton (e.g. how many variations from your input set were found from the background set, how many were left after filtering, how many unique annotations were found for these variations, and how many associations there was between the input variations and the annotations).
 </p>
-<p>Below the descriptive infomration a table with the query results will be shown- The table consist of variations in your input set, general information about the variations (allele, chromosomal location), and association of the variations to annotations as a binary table (0 means no association, 1 means an association). The data can be downloaded through the “Download data” button. The downloaded data can be further analyzed with external tools.
+<h3>Annotation Results</h3>
+<p>When input variations are correctly added annotation results table will be appear consisting of variations in your input set with general information about these variations (variation id, strand, position, allele, chromosome).</p>
+<p>After selecting variation and/or gene annotations "Annotation Results"-table will update to include those annotations as binary matrix (0 means no association, 1 means an association). The data can be downloaded through the “Download data” button. The downloaded data can be further analyzed with external tools.
 </p>
 
 <h2>Enrichment Analysis-tab</h2>
