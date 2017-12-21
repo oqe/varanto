@@ -25,7 +25,7 @@ Deploying Varanto locally - instructions
         2.2.2. Prepare MSigDB_Collection  
         2.2.3. Download background sets  
         2.2.4. Prepare background sets  
-    2.2. Main data source version check  
+    2.3. Main data source version check  
 3. Download and prepare main data sources and import to database  
     3.1. Edit and apply changes to configuration file (varanto_import.conf)  
     3.2. Setting up passwordless database import (optional, but recommended)  

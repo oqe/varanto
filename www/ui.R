@@ -81,7 +81,6 @@ shinyUI(
                          
                          # Annotation Data
                          ##################
-			 h3("Annotation Results"),
                          verticalLayout(
                            textOutput('message_data'),
                             inputPanel(            
@@ -148,11 +147,7 @@ shinyUI(
                ),
                
                textOutput('message_noinput1'),
-               
-               #uiOutput('d3heatmap_ui'),
-               #uiOutput('heatmap_ui'),
-               #uiOutput('ggheatmap_ui'),
-               
+
                uiOutput('plotlyheatmap_ui')
       ),
       

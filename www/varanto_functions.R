@@ -24,7 +24,7 @@ match.numeric <- function(x, table) {
   vapply(x, match.one, integer(1L), table)
 }
 
-get_connection <- function(dbname, host = "", port = 5432, user = "", password = "") {
+get_connection <- function(dbname, host, port, user, password) {
   return (src_postgres(dbname = dbname, host = host, port = port, user = user, password = password))
 }
 
@@ -227,51 +227,19 @@ get_sparse_matrix <- function(variations_ids, annotations_ids, id_pairs) {
 }
 
 get_odds_ratio <- function(annotations, sparse_matrix, variations_sample, variations_total) {
-  
-  # DEBUG
-  #print(sparse_matrix)
-  
+
   if (is.null(sparse_matrix)) {
     annotations$observed <- rep(0, nrow(annotations))
-    # DEBUG
-    # print("Sparse matrix is null")
   } else {
     names2sums = numeric() #because col_sums returns sums as doubles, not integers
     names2sums[dimnames(sparse_matrix)[[2]]] = col_sums(sparse_matrix)
     annotations$observed <- names2sums[as.character(annotations$id)]
-    
-    # DEBUG
-    # print(names2sums[as.character(annotations$id)])
-    # print("names2sums:")
-    # print(str(names2sums))
-    # print(class(names2sums))
-    # print(typeof(names2sums))
-    # print(names(names2sums))
-    # print(names2sums)
-    # print("test: names2sums[24320]:")
-    # print(names2sums[24320])
-    # print('test: names2sums["24320"]:')
-    # print(names2sums["24320"])
-    # print("annotation ids:")
-    # print(annotations$id)
-    # print("names2sums 2:")
-    # print(names2sums[as.integer(annotations$id)])
-    # print(names2sums[annotations$id])
   }
+  
   prop = variations_sample / variations_total  
   annotations$expected <- annotations$count * prop    
   annotations$odds_ratio <- (annotations$observed / (variations_sample - annotations$observed)) /
     (annotations$count / (variations_total - annotations$count))
-  
-  # DEBUG
-  # print(prop)
-  # print(annotations$count * prop)
-  # print(annotations$observed)
-  # print((annotations$observed / (variations_sample - annotations$observed)) /
-  #         (annotations$count / (variations_total - annotations$count)))  
-  # print(variations_sample)
-  # print(variations_total)
-  # print(annotations)
   
   return (annotations)
 }
@@ -310,15 +278,9 @@ get_variation_binary_data <- function(variations, annotations, annotations_desc,
     }    
   }
 
-  print(head(variations))
+  # DEBUG
+  # print(head(variations))
   
-#  foreach(i=1:nrow(annotations), .combine=cbind) %do% {
-#    tmp <- sparse[lstrip(variations$id), lstrip(annotations[i,]$id)]
-#    colnames(tmp)[i] <- [paste(ann_desc2name[as.integer(annotations[i,]$annotation_description_id)], annotations[i,]$label, sep = sep)]
-
-#      }
-  
-    
   return (variations)
 }
 
@@ -348,12 +310,7 @@ get_example_data <- function() {
 }
 
 processTextInput <- function(text) {
-  #print(file)
-  #values <- suppressWarnings(as.numeric(unlist(strsplit(text, split=",| |\n|\r|\t|\v"))))
-  #if (is.null(file)) {
-  #values <- suppressWarnings(as.numeric(unlist(strsplit(text, split="[, \n\r\t\v]+"))))
-  #values <- values[which(!is.na(values))]
-  #} else {
+
   values <- NULL
   
   values <- suppressWarnings(as.character(unlist(strsplit(text, split=',| |\r|\t|\v'))))
