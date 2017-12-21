@@ -21,6 +21,7 @@ library(rvg)
 library(ggplot2)
 library(dbplyr)
 library(dplyr)
+library(data.table)
 
 source('varanto_functions.R')
 
@@ -551,10 +552,12 @@ shinyServer(function(input, output, session) {
     },
     content = function(file) {
       if (is.null(reac_get_annotations())) {
-        write.csv(NULL, file)
+        #write.csv(NULL, file)
+	data.table::fwrite(NULL, file,nThread=1)
       } else {     
         #order and download
-        write.csv(reac_get_enrichment_data(), file, row.names=FALSE)      
+        #write.csv(reac_get_enrichment_data(), file, row.names=FALSE)
+	data.table::fwrite(reac_get_enrichment_data(), file, nThread=1)
       }
     }
   )
@@ -950,10 +953,12 @@ shinyServer(function(input, output, session) {
     },
     content = function(file) {
       if (is.null(reac_get_variation_binary_data())) {
-        write.csv(NULL, file)
+        #write.csv(NULL, file)
+	data.table::fwrite(NULL, file,nThread=1)
       } else {
         variation_binary_data = reac_get_variation_binary_data_download()
-        write.csv(get_variation_data_to_presentation(variation_binary_data), file, row.names=FALSE)
+        #write.csv(get_variation_data_to_presentation(variation_binary_data), file, row.names=FALSE)
+	data.table::fwrite(get_variation_data_to_presentation(variation_binary_data), file, row.names=FALSE, nThread=1)
       }
     }
   )  
