@@ -358,9 +358,9 @@ For example if we want to only do the downloading of the required files before g
 
 ### 4. Shiny
 
-After completing the import steps succesfully we need to 
+After completing the import steps succesfully we need to run Varanto locally we also need to apply appropriate changes to connect to our postgresql database. After that you can launch Varanto from RStudio.
 
-To run Varanto locally we also need to apply appropriate changes to connect to our postgresql database. After that you can launch Varanto from RStudio.
+Also to install required R-packages run **install_packages.R** from **www**-folder.
 
 #### 4.1 Input your database information for R Shiny
 
