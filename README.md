@@ -364,15 +364,9 @@ To run Varanto locally we also need to apply appropriate changes to connect to o
 
 #### 4.1 Input your database information for R Shiny
 
-**varanto_functions.R**
+**global.R.DEFAULT**
 
-Inline 27 "get_connection <- ..." fill in your information
-- host
-- port
-- user
-- password
-
-**global.R**
+Update with your database and user login information and rename to global.R
 
 Fill in information:
 - db
