@@ -37,9 +37,9 @@ Replace /varanto/ in the code blocks with the actual path to your git downloaded
 
 ### 1. Requirements
 
-Setup has only been tested on CentOS 7, but should work on any *nix system.
+Setup has only been tested on CentOS 7, but should work on UNIX-like systems.
 
-* <strong>OS</strong>: Linux-based
+* <strong>OS</strong>: UNIX-like
     * Python 3.4 or above
     * R, RStudio
         * BiomaRt, dplyr, Shiny, plotly, ggplot2 and other packages (check About from http://bioinformatics.uef.fi/varanto/)  
@@ -74,16 +74,16 @@ MSigDB and background sets data sources need to be manually downloaded and prepa
 Download git repo
 
     git init
-    git remote add origin https://
+    git remote add origin https://github.com/oqe/varanto
     git pull origin master
 
 For MSigDB and SNP-arrays (or your custom background sets) you need to some manual downloading and setting up before import. Ensembl and GET-E downloading and preparation is automated in the main import script. Configuration of varanto_import.conf is still required.
 
-Check *varanto_import.conf* file for settings and paths for files. There is a more comprehensive follow up on this .conf file in section 7.
+Check *varanto_import.conf* file for settings and paths for files. There is a more comprehensive follow up on this .conf file in section 3.1.
 
 Data sources in these examples will be downloaded and stored to /varanto/downloaded_data. Alternatively they can be downloaded to any given directory, be sure to reflected that in place of /varanto/downloaded_data.
 
-*Install R-packages*:
+**Install R-packages*:**
 * After installing RStudio open and run varanto/www/install_R_packages.R to install the required packages
 
 #### 2.2 Preparing additional data sources manually
@@ -94,13 +94,13 @@ These resources need to be downloaded and prepared manually before the import.
 
 ##### 2.2.1 Download MSigDB_Collection
 
-Download/update the MSigDB Collections (http://software.broadinstitute.org/gsea/msigdb/collections.jsp)[http://software.broadinstitute.org/gsea/msigdb/collections.jsp] by downloading the files to */varanto/downloaded_content/MSigDB_Collections_v<version number>* (<version number> meaning your current version). Also check the release notes for the downloads.
+Download/update the MSigDB Collections (http://software.broadinstitute.org/gsea/msigdb/collections.jsp)[http://software.broadinstitute.org/gsea/msigdb/collections.jsp] by downloading the files to */varanto/downloaded_content/MSigDB_Collections_<version number>/. Also check the release notes for the downloads.
 
 <strong>You only need to download the gene symbols files.</strong> File extensions for these are .gmt.
 
 ##### 2.2.2 Prepare MSigDB_Collection
 
-Update/create a tab-delimited listing of the previous step's downloaded MSigDB files' paths, listing one path per line and give each path a "name" separated by tab (on the same line). Save this text file to */varanto/data/MSigDB_Collections_v<version number>.txt*. For example:
+Update/create a tab-delimited listing of the previous step's downloaded MSigDB files' paths, listing one path per line and give each path a "name" separated by tab (on the same line). Save this text file to */varanto/data/MSigDB_Collections_<version number>.txt*. For example:
 
     /varanto/downloaded_data/MSigDB_Collections_v6.0/h.all.v6.0.symbols.gmt H_hallmark
     /varanto/downloaded_data/MSigDB_Collections_v6.0/c1.all.v6.0.symbols.gmt    C1_positional
@@ -131,9 +131,7 @@ In the hosted Varanto background sets are comprised of different single-nucleoti
 
 Basically we extract the SNP-identifiers from the downloaded SNP-arrays and prepare the files accordingly.
 
-Download snpArray* files from UCSC:
-    
-    http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/
+Download snpArray* files from UCSC: http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/
 
 ##### 2.2.4 Prepare background sets
 
@@ -198,7 +196,7 @@ Like the name implies references sql-commands which are used to initiate and cre
 
     DB_INIT_AND_CREATE=../db/db_init_and_insert_data.sql
 
-*USER DEFINED* - Ensembl Homo Sapiens variation table version. Usually follows the naming scheme of *homo_sapiens_variation_<ensembl assembly version>_<genome version GRch38, so 38>.variation*. For example:
+**USER DEFINED** - Ensembl Homo Sapiens variation table version. Usually follows the naming scheme of *homo_sapiens_variation_<ensembl assembly version>_<genome version GRch38, so 38>.variation*. For example:
 
     ENSEMBL_VAR_TABLE=homo_sapiens_variation_89_38.variation
 
@@ -239,14 +237,14 @@ File to which download GET-E
 
     GET_EVIDENCE_VAR_INFO=/home/groups/bioinfo/varanto/downloaded_data/v89/get_evidence_var_info.tsv
 
-*USER DEFINED* - See section 2.2.4 of this document
+**USER DEFINED** - See section 2.2.4 of this document
 
     BACKGROUND_SETS_DESCRIPTIONS=../data/background_sets.txt
 
 
     BACKGROUND_SETS_FOLDER=/home/groups/bioinfo/varanto/downloaded_data/background_sets/
 
-*USER DEFINED* - Import outcome files ready for processing steps before database import. You only need to edit path to which you want the import processed files to be saved:
+**USER DEFINED** - Import outcome files ready for processing steps before database import. You only need to edit path to which you want the import processed files to be saved:
 
     TABLE_VAR=/varanto/downloaded_data/v89/variations.csv
     TABLE_ANN=/varanto/downloaded_data/v89/annotations.csv
@@ -256,7 +254,7 @@ Database import ready file that defines the annotation descriptions:
 
     TABLE_ANNDESC=/varanto/data/annotations_descriptions.txt
 
-*USER DEFINED* - Processed files ready for database import. You only need to edit path to which you want the import processed files to be saved:
+**USER DEFINED** - Processed files ready for database import. You only need to edit path to which you want the import processed files to be saved:
 
     TABLE_BACKSET=/varanto/downloaded_data/v89/back_set.csv
     TABLE_ANN2BACK=/varanto/downloaded_data/v89/ann2back.csv
@@ -267,11 +265,11 @@ Amount of top allelles:
 
     TOP_ALLELES=2000
 
-*USER DEFINED* - See section 2.2.2:
+**USER DEFINED** - See section 2.2.2:
 
     MSIGDB_CONF=varanto/data/MSigDB_Collections_v6.0_files.txt
 
-*USER DEFINED* - "Log" file for msigdb identfiers that are not found. You only need to edit path to which you want the import processed files to be saved:
+**USER DEFINED** - "Log" file for msigdb identfiers that are not found. You only need to edit path to which you want the import processed files to be saved:
 
     MSIGDB_HGNC_NOT_FOUND=/home/groups/bioinfo/varanto/downloaded_data/v89/msigdb_hgnc_not_found.txt
 
