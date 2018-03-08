@@ -202,32 +202,32 @@ Like the name implies references sql-commands which are used to initiate and cre
 
 File to which to download variation ids 
 
-    ENSEMBL_VAR_IDS=/home/groups/bioinfo/varanto/downloaded_data/v89/ensembl_variations_ids.txt
+    ENSEMBL_VAR_IDS=/varanto/downloaded_data/v89/ensembl_variations_ids.txt
 
 File to which to download variation annotations
 
-    ENSEMBL_VAR_ANNOTATIONS=/home/groups/bioinfo/varanto/downloaded_data/v89/annotated_ensembl_snps.txt
+    ENSEMBL_VAR_ANNOTATIONS=/varanto/downloaded_data/v89/annotated_ensembl_snps.txt
 
 
     ENSEMBL_VAR_ANNOTATIONS_START_FROM=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1) #101 times
 
 Progress/log information file
 
-    ENSEMBL_VAR_ANNOTATIONS_PROGRESS=/home/groups/bioinfo/varanto/downloaded_data/v89/retrieve_ensembl_variations.out
+    ENSEMBL_VAR_ANNOTATIONS_PROGRESS=/varanto/downloaded_data/v89/retrieve_ensembl_variations.out
 
 Associated gene id download file
 
-    ASSOCIATED_GENES_IDS=/home/groups/bioinfo/varanto/downloaded_data/v89/associated_genes_ids.txt
+    ASSOCIATED_GENES_IDS=/varanto/downloaded_data/v89/associated_genes_ids.txt
 
 Associated genes download file
 
-    ASSOCIATED_GENES_ANNOTATIONS=/home/groups/bioinfo/varanto/downloaded_data/v89/annotated_associated_genes.txt
+    ASSOCIATED_GENES_ANNOTATIONS=/varanto/downloaded_data/v89/annotated_associated_genes.txt
 
 
     ENSEMBL_GENES_ANNOTATIONS_START_FROM=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1) #101 times
 
 
-    ENSEMBL_GENES_ANNOTATIONS_PROGRESS=/home/groups/bioinfo/varanto/downloaded_data/v89/retrieve_ensembl_genes.out
+    ENSEMBL_GENES_ANNOTATIONS_PROGRESS=/varanto/downloaded_data/v89/retrieve_ensembl_genes.out
 
 Default GET-E URL - DO NOT CHANGE
 
@@ -235,14 +235,14 @@ Default GET-E URL - DO NOT CHANGE
 
 File to which download GET-E
 
-    GET_EVIDENCE_VAR_INFO=/home/groups/bioinfo/varanto/downloaded_data/v89/get_evidence_var_info.tsv
+    GET_EVIDENCE_VAR_INFO=/varanto/downloaded_data/v89/get_evidence_var_info.tsv
 
 **USER DEFINED** - See section 2.2.4 of this document
 
     BACKGROUND_SETS_DESCRIPTIONS=../data/background_sets.txt
 
 
-    BACKGROUND_SETS_FOLDER=/home/groups/bioinfo/varanto/downloaded_data/background_sets/
+    BACKGROUND_SETS_FOLDER=/varanto/downloaded_data/background_sets/
 
 **USER DEFINED** - Import outcome files ready for processing steps before database import. You only need to edit path to which you want the import processed files to be saved:
 
@@ -271,7 +271,7 @@ Amount of top allelles:
 
 **USER DEFINED** - "Log" file for msigdb identfiers that are not found. You only need to edit path to which you want the import processed files to be saved:
 
-    MSIGDB_HGNC_NOT_FOUND=/home/groups/bioinfo/varanto/downloaded_data/v89/msigdb_hgnc_not_found.txt
+    MSIGDB_HGNC_NOT_FOUND=/varanto/downloaded_data/v89/msigdb_hgnc_not_found.txt
 
 #### 3.2 Setting up passwordless database import (optional, but recommended)
 
@@ -294,15 +294,12 @@ So <password> is your actual password. After that you need to save changes you m
 
 After that you need to check every command in your database creating scripts that have *psql* and add *-w* handle to them.
 
-See the following:
-
-	https://www.postgresql.org/docs/current/static/libpq-pgpass.html
-	https://linuxandryan.wordpress.com/2013/03/07/creating-and-using-a-pgpass-file/
+See the following: 
+https://www.postgresql.org/docs/current/static/libpq-pgpass.html 
+https://linuxandryan.wordpress.com/2013/03/07/creating-and-using-a-pgpass-file/
 
 #### 3.3 Import script - Download main data sources
 
-**!Important!** limit the used threads to 1-2.  
-The querying has been parallized, but this basicly DDoS the bioMart service (R's bioMart getBM...) and therefore for most threads fails.  
 Main download may take several days! For example one attempt took 4 days and 9 hours.
 
 Script is run **varanto_import.script sh** from the following git folder of your varanto project: /varanto/importer_src
