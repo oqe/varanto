@@ -1,15 +1,14 @@
 
 # Local install/deployment instructions
-# Table of Contents
 
-Varanto  
-Usage  
+Local installation and deployment instructions for Varanto. 
+
+## Table of Contents
 
 Deploying Varanto locally - instructions  
 1. Requirements  
-    1.1. Install required software - Option A: natively  
-    1.2. Install required software - Option B: with conda package manager  
-    1.3. Setup your PostgreSQL database  
+    1.1. Install required software  
+    1.2. Setup your PostgreSQL database  
 2. Downloading and preparing data sources (MSigDB, background sets) and Varanto git repository  
     2.1. Varanto git repository  
     2.2. Preparing additional data sources manually  
@@ -27,20 +26,18 @@ Deploying Varanto locally - instructions
     4.1. Input your database information for R Shiny  
     4.2. Startup Shiny  
 
-Credits and citing instructions  
-Sources  
-
-## Usage
-
-<<< simple usage instructions with gifs? >>>
 
 ## Deploying Varanto locally - instructions
 
-These instructions detail how to deploy Varanto (locally) with same (data) resources as the hosted webservice at http://bioinformatics.uef.fi/varanto. **Notice that obtaining the same resources and deploying them may take several days depending on computational and network resources at your disposal.**
+These instructions detail how to deploy Varanto (locally) with same (data) resources as the hosted webservice at http://bioinformatics.uef.fi/varanto.
+
+**Notice that obtaining the same resources and deploying them may take several days depending on computational and network resources at your disposal.**
+
+Replace /varanto/ in the code blocks with the actual path to your git downloaded varanto directory.
 
 ### 1. Requirements
 
-Tested on CentOS 7.
+Setup has only been tested on CentOS 7, but should work on any *nix system.
 
 * <strong>OS</strong>: Linux-based
     * Python 3.4 or above
@@ -48,31 +45,19 @@ Tested on CentOS 7.
         * BiomaRt, dplyr, Shiny, plotly, ggplot2 and other packages (check About from http://bioinformatics.uef.fi/varanto/)  
     * PostgreSQL
 
-Optional, easier way is to install required software is to install <strong>Anaconda</strong> and use the conda package management template provided. It should also work nicely if you do not have admin-rights (although you need them to install anaconda, but the not the subsequent package software). If you wish to use conda skip straight to section 3.
-
-*Approximate disk space requirements:*  
+*Approximate disk space requirements:*
+* Overall recommended space for deployment: ~ 3 TB
 * SNP-arrays/Background sets ~ 400 MB
 * MSigDB (.gmt) ~ 28 MB
 * Ensembl and GET-E ~ 712 GB
 * operational PostgreSQL database ~ 1.5 TB
-* Overall recommended space for deployment: ~ 3 TB
 
-#### 1.1 Install required software - Option A: natively
+#### 1.1 Install required software
 
 Install required software:
 * Python 3.4 or up
 * RStudio
 * PostgreSQL
-
-#### 1.2 Install required software - Option B: with conda package manager
-
-Install anaconda if you already haven't.
-
-Then use conda to import / create conda the ready enviroment from file.
-
-    conda env create -f /varanto/src/varanto_env.yml
-
-*NOTICE!* that you have to activate the enviroment before running any of it's software.
 
 #### 1.3 Setup your PostgreSQL database
 
@@ -82,9 +67,9 @@ Initiation of the schema is automated and handled by the import-script. If there
 
 ### 2. Downloading and preparing data sources (MSigDB, background sets) and Varanto git repository
 
-MSigDB and background sets data sources need to be manually downloaded and prepared. These data will be later imported to the database. Varanto git repository contains...
+MSigDB and background sets data sources need to be manually downloaded and prepared. These data will be later imported to the database.
 
-#### 2.1 Varanto git repository
+#### 2.1 Varanto git repository, install R-packages
 
 Download git repo
 
@@ -98,19 +83,24 @@ Check *varanto_import.conf* file for settings and paths for files. There is a mo
 
 Data sources in these examples will be downloaded and stored to /varanto/downloaded_data. Alternatively they can be downloaded to any given directory, be sure to reflected that in place of /varanto/downloaded_data.
 
-*NOTICE! The datasets in these*
+*Install R-packages*:
+* After installing RStudio open and run varanto/www/install_R_packages.R to install the required packages
 
 #### 2.2 Preparing additional data sources manually
 
-In the webservice we use MSigDB for gene annotations and various SNP-arrays as background sets for filtering (to select variants in the selected array). These resources need to be downloaded and prepared manually before the import.
+In the webservice we use MSigDB for gene annotations and various SNP-arrays as background sets for filtering (to select variants in the selected array).
+
+These resources need to be downloaded and prepared manually before the import.
 
 ##### 2.2.1 Download MSigDB_Collection
 
-Download/update the MSigDB Collections (http://software.broadinstitute.org/gsea/msigdb/collections.jsp)[http://software.broadinstitute.org/gsea/msigdb/collections.jsp] by downloading the files to */varanto/downloaded_content/MSigDB_Collections_v<version number>* (<version number> meaning your current version). Also check the release notes for the downloads. <strong>You only need to download the gene symbols files.</strong> File extensions for these are .gmt.
+Download/update the MSigDB Collections (http://software.broadinstitute.org/gsea/msigdb/collections.jsp)[http://software.broadinstitute.org/gsea/msigdb/collections.jsp] by downloading the files to */varanto/downloaded_content/MSigDB_Collections_v<version number>* (<version number> meaning your current version). Also check the release notes for the downloads.
+
+<strong>You only need to download the gene symbols files.</strong> File extensions for these are .gmt.
 
 ##### 2.2.2 Prepare MSigDB_Collection
 
-Update / create a tab-delimited listing of the previous step's downloaded MSigDB files' paths, listing one path per line and give each path a "name" separated by tab (on the same line). Save this text file to */varanto/data/MSigDB_Collections_v<version number>.txt*. For example:
+Update/create a tab-delimited listing of the previous step's downloaded MSigDB files' paths, listing one path per line and give each path a "name" separated by tab (on the same line). Save this text file to */varanto/data/MSigDB_Collections_v<version number>.txt*. For example:
 
     /varanto/downloaded_data/MSigDB_Collections_v6.0/h.all.v6.0.symbols.gmt H_hallmark
     /varanto/downloaded_data/MSigDB_Collections_v6.0/c1.all.v6.0.symbols.gmt    C1_positional
@@ -190,12 +180,6 @@ Check the current version of ensembl database. Current and previous version and 
   
 If you have previously used Varanto to import some version of Ensembl, you can check your previous download folder for the ensembl data  /varanto/downloaded_data and note the version and path. That is if you wish to revert to that version.
 
-For example
-
-    ftp://ftp.ensembl.org/pub/release-84/mysql/homo_sapiens_variation_84_38/
-
-<<<< ADD MORE INFO! >>>>
-
 ### 3. Download and prepare main data sources and import to database
 
 In this section we will download the main data sources with help of the import_script and also use this script to prepare and import data to database.
@@ -204,7 +188,7 @@ In this section we will download the main data sources with help of the import_s
 
 Edit /varanto/conf/varanto_import.conf
 
-Input your PostgreSQL database host address, database- and usernames.
+*USER DEFINED* - Input your PostgreSQL database host address, database- and usernames.
     
     DB_HOST=<your host address>
     DB_NAME=<your database name>
@@ -214,11 +198,11 @@ Like the name implies references sql-commands which are used to initiate and cre
 
     DB_INIT_AND_CREATE=../db/db_init_and_insert_data.sql
 
-Ensembl Homo Sapiens variation table version
+*USER DEFINED* - Ensembl Homo Sapiens variation table version. Usually follows the naming scheme of *homo_sapiens_variation_<ensembl assembly version>_<genome version GRch38, so 38>.variation*. For example:
 
     ENSEMBL_VAR_TABLE=homo_sapiens_variation_89_38.variation
 
-File to which to download variation ids
+File to which to download variation ids 
 
     ENSEMBL_VAR_IDS=/home/groups/bioinfo/varanto/downloaded_data/v89/ensembl_variations_ids.txt
 
@@ -226,9 +210,6 @@ File to which to download variation annotations
 
     ENSEMBL_VAR_ANNOTATIONS=/home/groups/bioinfo/varanto/downloaded_data/v89/annotated_ensembl_snps.txt
 
-Threads used for downloading - PLEASE LIMIT TO MAX 2.
-
-    THREADS=2
 
     ENSEMBL_VAR_ANNOTATIONS_START_FROM=(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1) #101 times
 
@@ -258,35 +239,39 @@ File to which download GET-E
 
     GET_EVIDENCE_VAR_INFO=/home/groups/bioinfo/varanto/downloaded_data/v89/get_evidence_var_info.tsv
 
+*USER DEFINED* - See section 2.2.4 of this document
 
     BACKGROUND_SETS_DESCRIPTIONS=../data/background_sets.txt
 
 
     BACKGROUND_SETS_FOLDER=/home/groups/bioinfo/varanto/downloaded_data/background_sets/
 
-Processed files ready for database import:
+*USER DEFINED* - Import outcome files ready for processing steps before database import. You only need to edit path to which you want the import processed files to be saved:
 
-    TABLE_VAR=/home/groups/bioinfo/varanto/downloaded_data/v89/variations.csv
-    TABLE_ANN=/home/groups/bioinfo/varanto/downloaded_data/v89/annotations.csv
-    TABLE_VAR2ANN=/home/groups/bioinfo/varanto/downloaded_data/v89/var2ann.csv
+    TABLE_VAR=/varanto/downloaded_data/v89/variations.csv
+    TABLE_ANN=/varanto/downloaded_data/v89/annotations.csv
+    TABLE_VAR2ANN=/varanto/downloaded_data/v89/var2ann.csv
 
-Predefined/created annotation description 
+Database import ready file that defines the annotation descriptions:
 
-    TABLE_ANNDESC=../data/annotations_descriptions.txt
-    TABLE_BACKSET=/home/groups/bioinfo/varanto/downloaded_data/v89/back_set.csv
-    TABLE_ANN2BACK=/home/groups/bioinfo/varanto/downloaded_data/v89/ann2back.csv
-    TABLE_VAR2BACK=/home/groups/bioinfo/varanto/downloaded_data/v89/var2back.csv
-    TABLES_COUNTS=/home/groups/bioinfo/varanto/downloaded_data/v89/tables_counts.csv
+    TABLE_ANNDESC=/varanto/data/annotations_descriptions.txt
+
+*USER DEFINED* - Processed files ready for database import. You only need to edit path to which you want the import processed files to be saved:
+
+    TABLE_BACKSET=/varanto/downloaded_data/v89/back_set.csv
+    TABLE_ANN2BACK=/varanto/downloaded_data/v89/ann2back.csv
+    TABLE_VAR2BACK=/varanto/downloaded_data/v89/var2back.csv
+    TABLES_COUNTS=/varanto/downloaded_data/v89/tables_counts.csv
 
 Amount of top allelles:
 
     TOP_ALLELES=2000
 
-File for MSigDB
+*USER DEFINED* - See section 2.2.2:
 
-    MSIGDB_CONF=../data/MSigDB_Collections_v6.0_files.txt
+    MSIGDB_CONF=varanto/data/MSigDB_Collections_v6.0_files.txt
 
-"Log" file for msigdb identfiers that are not found
+*USER DEFINED* - "Log" file for msigdb identfiers that are not found. You only need to edit path to which you want the import processed files to be saved:
 
     MSIGDB_HGNC_NOT_FOUND=/home/groups/bioinfo/varanto/downloaded_data/v89/msigdb_hgnc_not_found.txt
 
@@ -341,18 +326,19 @@ Here we presume you defined your configuration file appropriately (eg. **varanto
 
 For example if we want to only do the downloading of the required files before going doing anything database related we will perform step 1-5. (pwd: /home/users/username/pathtovaranto/varanto/importer_src):
 
-    sh varanto_import.sh -c ../conf/varanto_import.conf -f 1 -t 5
+    sh varanto_import.sh -c /varanto/conf/varanto_import.conf -f 1 -t 5
 
 #### 3.4 Import script - Prepare and import data resources to database
 
+Process imported data and and import to PostgreSQL database
 
-
+    sh varanto_import.sh -c /varanto/conf/varanto_import.conf -f 6 -t 8
 
 ### 4. Shiny
 
 After completing the import steps succesfully we need to run Varanto locally we also need to apply appropriate changes to connect to our postgresql database. After that you can launch Varanto from RStudio.
 
-Also to install required R-packages run **install_packages.R** from **www**-folder.
+Also to install required R-packages run **install_packages.R** from **www**-folder unless already done in section 2.1.
 
 #### 4.1 Input your database information for R Shiny
 

@@ -9,4 +9,3 @@ Varanto web application is available to use at [http://bioinformatics.uef.fi/var
 Varanto is developed using R and Shiny web framework.
 
 Local installation and deployment instructions are on INSTRUCTIONS.md file.
-
