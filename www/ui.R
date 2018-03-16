@@ -102,17 +102,19 @@ shinyUI(
       tabPanel("Enrichment Analysis",
                
                conditionalPanel(
-                 condition = "output.variation_data!=null",
+                 condition = "output.enrichment_data!=null",
                  div(style = "margin-bottom: 20px;",
                      downloadButton('download_enrichment', 'Download enrichment results')
                  )
                ),
+               textOutput('message_noinput1'),
                dataTableOutput('enrichment_data')
+               
       ),
       
       tabPanel('Heatmap',
                conditionalPanel(
-                 condition = "output.variation_data!=null",
+                 condition = "output.plotlyheatmap_ui!=null",
 
                  inputPanel(
                    checkboxInput('autoheight', 'Auto plot height', TRUE),
@@ -146,14 +148,18 @@ shinyUI(
                  )
                ),
                
-               textOutput('message_noinput1'),
-
+               textOutput('message_noinput2'),
                uiOutput('plotlyheatmap_ui')
       ),
       
       tabPanel("Karyogram",
-               textOutput('message_noinput2'),
-               plotOutput('karyogram_chromplot')
+               textOutput('message_noinput3'),
+               
+               conditionalPanel(
+                 condition = "output.variation_data!=null",
+                 
+                 plotOutput('karyogram_chromplot')
+                )
       ),
 
       tabPanel("User Guide",

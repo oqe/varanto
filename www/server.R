@@ -3,21 +3,19 @@
 #library(GenomicRanges)
 
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
-library(karyoploteR)
-#library(chromPlot)
+library(chromPlot)
 
-#require(Heatplus)
 library(shiny)
 library(plotly)
 library(reshape2)
 library(gplots)
 library(stringr)
+
 library(ggdendro)
 library(gridBase)
 library(RColorBrewer)
 library(rvg)
-#library(d3heatmap)
-#library(ggiraph)
+
 library(ggplot2)
 library(dbplyr)
 library(dplyr)
@@ -419,35 +417,54 @@ shinyServer(function(input, output, session) {
     paste0("Number of associations: ", pairs)
   })
 
-  # karyoploteR - R package
-  output$karyogram_karyoploter <- renderPlot({
+  # chromPlot R-package
+  output$karyogram_chromplot <- renderPlot({
     
-    if (is.null(reac_get_input_variations())) {
-    
-    } else {
+    if(!is.null(reac_get_input_variations())) {
+      txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
+      library(GenomicFeatures)
+      
+      data(hg_gap)
+      data(hg_cytoBandIdeo)
+      
       # Data
       dn <- GRanges(seqnames=paste0("chr",reac_get_input_variations()$chr),ranges=IRanges(start=reac_get_input_variations()$position, width=rep(1, nrow(reac_get_input_variations()))))
       
-      print(head(dn))
-      # Genome version of karyogram+coordinates
-      kp <- plotKaryotype(genome="hg38")
-      # Actual plot
-      kpPlotMarkers(kp, data=dn)#, labels=genes$hgnc_symbol)  
+      # chromPlot requires biomaRt which overrides function names (select which is used alot!)
+      chromPlot(
+        bands=hg_cytoBandIdeo,
+        annot1=dn,
+        gaps=hg_gap,
+        title="Chromosomal locations of variations",
+        scale.title="Location")
+      # noHist=FALSE)
     }
   }, height = 900)
+  
 
   output$message_enrichment <- renderText({
     if (is.null(reac_get_annotations())) {
-      "No annotations selected!"
+      "No annotations selected: Please select wanted annotation(s) and filtering from 'Input'-tab and press 'Submit'-button."
     }
   })
   
+  # Note! If using multiple same message outputs (for example 2x message_noinput1) per ui.R will cause the ui FAIL to load 
+  #########################################################################################################################
   output$message_noinput1 <- renderText({
     if(is.null(reac_get_input_variations())) {
       "No input: Please add input, select wanted annotation(s) and filtering from 'Input'-tab and press 'Submit'-button."
+    } else if(is.null(reac_get_enrichment_data())) {
+      "No annotations selected: Please select wanted annotation(s) and filtering from 'Input'-tab and press 'Submit'-button."
     }
   })
   output$message_noinput2 <- renderText({
+    if(is.null(reac_get_input_variations())) {
+      "No input: Please add input, select wanted annotation(s) and filtering from 'Input'-tab and press 'Submit'-button."
+    } else if(is.null(reac_get_enrichment_data())) {
+      "No annotations selected: Please select wanted annotation(s) and filtering from 'Input'-tab and press 'Submit'-button."
+    }
+  })
+  output$message_noinput3 <- renderText({
     if(is.null(reac_get_input_variations())) {
       "No input: Please add input, select wanted annotation(s) and filtering from 'Input'-tab and press 'Submit'-button."
     }
@@ -542,6 +559,8 @@ shinyServer(function(input, output, session) {
       #}
       
       enrichment_data
+    } else {
+      return(NULL)
     }
     
   })  
@@ -552,17 +571,18 @@ shinyServer(function(input, output, session) {
     },
     content = function(file) {
       if (is.null(reac_get_annotations())) {
-        #write.csv(NULL, file)
-	data.table::fwrite(NULL, file,nThread=1)
+        return(NULL)
       } else {     
         #order and download
-        #write.csv(reac_get_enrichment_data(), file, row.names=FALSE)
 	data.table::fwrite(reac_get_enrichment_data(), file, nThread=1)
       }
     }
   )
   
-  output$enrichment_data <- renderDataTable({    
+  output$enrichment_data <- renderDataTable({
+    if(is.null(reac_get_enrichment_data())){
+      return(NULL)
+    }
     as.data.frame(reac_get_enrichment_data()) #needed to wrap it with as.data.frame because of error when sort (bug in shiny: https://github.com/rstudio/shiny/issues/636)    
   }, escape = FALSE)
   
@@ -570,7 +590,17 @@ shinyServer(function(input, output, session) {
     if (is.null(reac_get_association_pairs())) {
       "No associations found."
     }
-  })  
+    if (is.null(reac_get_contingency_table())){
+      "No annotations selected. Select from input tab."
+    }
+  })
+  
+  output$message_heatmap <- renderText({
+    if (is.null(reac_get_association_pairs())) {
+      "No associations found."
+    }
+  })
+  
   
   reac_get_contingency_table <- reactive({
     get_contingency_table(reac_get_input_variations(), reac_get_annotations(), ann_desc, reac_get_association_pairs())
@@ -633,10 +663,7 @@ shinyServer(function(input, output, session) {
       # dev.off()
       
       if (is.null(reac_get_contingency_table())) {
-        pdf(file=file)
-        #ggsave(file, plot=renderPlotlyHeatmap(), device="pdf")
-        p <- renderPlotlyHeatmap()
-        print(p)
+        return(NULL)
       } else {
         #order and download
         pdf_width = ncol(reac_get_contingency_table()) / 7
@@ -700,6 +727,8 @@ shinyServer(function(input, output, session) {
         plotlyOutput("heatmap_plotly", height = input$height, width=input$width)
       }
       
+    } else {
+      return(NULL)
     }
     
   })
@@ -953,11 +982,9 @@ shinyServer(function(input, output, session) {
     },
     content = function(file) {
       if (is.null(reac_get_variation_binary_data())) {
-        #write.csv(NULL, file)
-	data.table::fwrite(NULL, file,nThread=1)
+        return(NULL)
       } else {
         variation_binary_data = reac_get_variation_binary_data_download()
-        #write.csv(get_variation_data_to_presentation(variation_binary_data), file, row.names=FALSE)
 	data.table::fwrite(get_variation_data_to_presentation(variation_binary_data), file, row.names=FALSE, nThread=1)
       }
     }
