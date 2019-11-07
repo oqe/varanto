@@ -1,11 +1,43 @@
 library(shiny)
 
+library(shinyjs)
+library(shinyBS)
+
+library(DT)
+
 rows = 1
 #options(warn=-1)
 options(shiny.trace=TRUE)
 
+appCSS <- "
+#loading-content {
+  position: absolute;
+  background: #AAAAAA;
+  opacity: 0.9;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  height: 100%;
+  text-align: center;
+  color: #FFFFFF;
+}
+"
+
 shinyUI(
   fluidPage(
+    
+    useShinyjs(),
+    inlineCSS(appCSS),
+    includeCSS("animate.css"),
+    # Loading message
+    div(
+      id="loading-content",
+      h3(style="margin-top:150px;",class="animated infinite pulse", "Initializing Varanto: variant enrichment analysis and annotation (R Shiny) user session...")
+    ),
+    hidden(
+      div(
+        id="app-content",
+
     
     # OVERRIDE width=300px...
     # Number of annotations right behind the annotation label
@@ -25,7 +57,7 @@ shinyUI(
     tabsetPanel(
       tabPanel("Input",
                fluidRow(
-                 div(style="margin-top: 20px;",
+                 div(style="margin-top: 40px;",
                      column(6,
                             
                             radioButtons("input_method", strong("Input method:"), c("Paste" = "insertion", "Upload a file" = "upload"), inline=T),
@@ -33,13 +65,27 @@ shinyUI(
                               condition = "input.input_method == 'insertion'",
                               strong("Input variations:"),
                               actionButton("example", "Example variations"),
+                              
+                              div(
+                                style="display:inline-block; vertical-align: middle; margin-left: 10px; margin-right: 10px",
+                                bsButton("q1", label = "", icon = icon("question"), style = "info", size = "extra-small"),
+                                bsPopover(id = "q1", title = "Input help",
+                                        content = paste0("Variants can be input as dbSNP rs-ids (e.g. rs1801133), or other variant identifiers supported by Ensembl database. In addition, you can use genomic locations in form chr:location (&#60;chromosome 1-22,X,Y,MT&#62;:&#60;start position&#62;). These can be mixed and matched separated by white space eg. &#39;rs1801133 22:19963748&#39;."),
+                                        placement = "right", 
+                                        trigger = "hover",
+                                        options = list(container = "body")
+                                )
+                              ),
+                              
                               br(),
                               tags$textarea(id="variations_input", rows=3, class="returnTextArea form-control", style = 'width: 35%; margin-top: 8px;'),
+                              #helpText("Variants can be input as dbSNP rs-ids (e.g. rs1801133), or other variant identifiers supported by Ensembl database. In addition, you can use genomic locations in form chr:location (<chromosome 1-22,X,Y,MT>:<start position>). These can be mixed and matched separated by white space eg. 'rs1801133 22:19963748'."),
                               br()
                             ),      
                             conditionalPanel(
                               condition = "input.input_method == 'upload'",
-                              fileInput("upload", "Upload a text file with variation identifiers:", accept = "text/plain")
+                              fileInput("upload", "Upload a text file with variation identifiers:", accept = "text/plain"),
+                              helpText("Input can be variant ids used in Ensembl eg. rs1801133 or genomic locations in form <chromosome 1-22,X,Y,MT>:<start position>. These can be mixed and matched. Please format input file to one variant per line.")
                             ),
                             
                             selectInput("back_set", label = strong("Background variation set:"), choices = setNames(back_set$id, paste0(back_set$description, " [", back_set$count, "]"))),
@@ -52,12 +98,15 @@ shinyUI(
                             div(style = "margin-bottom: 8px;",
                                 verticalLayout(
                                   selectInput("multiselectize_var", label="Variation annotations", choices=NULL, multiple=TRUE, selectize = FALSE, size=6),
-                                  selectInput("multiselectize_gene", label="Gene annotations", choices=NULL, multiple=TRUE, selectize = FALSE, size=6)
+                                 # helpText("Warning: Choosing annotations with large number of terms will increase execution time significantly"),
+                                  selectInput("multiselectize_gene", label="Gene annotations", choices=NULL, multiple=TRUE, selectize = FALSE, size=6),
+                                  helpText("Warning: Choosing annotations with large number of terms will increase execution time significantly")
                                 )
                             )
                      )
                  )
                ),
+                   
                fluidRow(
                  column(12, align="center",
                         div(style="margin-bottom: 15px;",
