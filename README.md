@@ -4,7 +4,7 @@ Varanto is an online database and tool for annotating human genetic variations u
 
 Varanto has been developed by the Bioinformatics Center at the University of Eastern Finland, Kuopio Finland.
 
-Varanto web application is available to use at [http://bioinformatics.uef.fi/varanto/](http://bioinformatics.uef.fi/varanto/)
+Varanto web application is available to use at [https://bioinformatics.uef.fi/varanto/](https://bioinformatics.uef.fi/varanto/)
 
 Varanto is developed using R and Shiny web framework.
 
